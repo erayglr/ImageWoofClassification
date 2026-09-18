@@ -1,12 +1,12 @@
 # 🐕 ImageWoof Dog Breed Classification
 
-Bu proje, **ImageNet** veri setinin daha zorlu bir alt kümesi olan **ImageWoof** veri seti kullanılarak 10 farklı köpek cinsinin sınıflandırılmasını amaçlamaktadır.
+This project focuses on training and evaluating an image classification model using **ImageWoof**, a challenging subset of the **ImageNet** dataset containing 10 different dog breeds.
 
-Model mimarisi olarak **transfer learning** yöntemiyle önceden ImageNet üzerinde eğitilmiş **EfficientNet-B0** kullanılmıştır.
+A pretrained **EfficientNet-B0** model is used with **transfer learning** to classify images into 10 dog breed categories.
 
-## 🐕 Sınıflandırılan Köpek Cinsleri
+## 🐕 Dog Breeds
 
-Model aşağıdaki 10 sınıfı sınıflandırmaktadır:
+The model classifies the following 10 breeds:
 
 1. Australian Terrier
 2. Beagle
@@ -19,7 +19,7 @@ Model aşağıdaki 10 sınıfı sınıflandırmaktadır:
 9. Samoyed
 10. Shih Tzu
 
-## 🛠️ Kullanılan Teknolojiler
+## 🛠️ Technologies & Libraries
 
 * **Python**
 * **PyTorch**
@@ -29,18 +29,18 @@ Model aşağıdaki 10 sınıfı sınıflandırmaktadır:
 * **Pillow**
 * **Google Colab GPU (CUDA)**
 
-## 🚀 Model ve Transfer Learning
+## 🚀 Model Architecture & Transfer Learning
 
-Projede **ImageNet ağırlıklarıyla önceden eğitilmiş EfficientNet-B0** kullanılmıştır.
+The project uses **EfficientNet-B0 pretrained on ImageNet**.
 
-Modelin `features` katmanları dondurularak önceden öğrenilmiş özelliklerin korunması sağlanmıştır:
+The pretrained feature extractor layers are frozen to prevent their parameters from being updated during training:
 
 ```python
 for param in model.features.parameters():
     param.requires_grad = False
 ```
 
-ImageWoof veri setindeki 10 sınıfa uygun olması için modelin classifier katmanı yeniden tanımlanmıştır:
+The classifier head is replaced to match the 10 classes in the ImageWoof dataset:
 
 ```python
 model.classifier = torch.nn.Sequential(
@@ -49,9 +49,9 @@ model.classifier = torch.nn.Sequential(
 )
 ```
 
-### ⚙️ Eğitim Ayarları
+### ⚙️ Training Configuration
 
-| Parametre          | Değer                   |
+| Parameter          | Value                   |
 | ------------------ | ----------------------- |
 | Model              | EfficientNet-B0         |
 | Pretrained Weights | ImageNet                |
@@ -62,45 +62,35 @@ model.classifier = torch.nn.Sequential(
 | Epochs             | 10                      |
 | Device             | CUDA / Google Colab GPU |
 
-## 📈 Eğitim Sonuçları
+## 📈 Training Results
 
-Model 10 epoch boyunca eğitilmiştir.
+The model was trained for **10 epochs**.
 
 | Epoch | Train Accuracy | Test Accuracy |
 | ----: | -------------: | ------------: |
 |     1 |         66.82% |        86.88% |
 |    10 |         93.60% |        88.33% |
 
-Model, eğitim sonunda **%93.60 train accuracy** ve **%88.33 test accuracy** değerine ulaşmıştır.
+The model achieved **93.60% training accuracy** and **88.33% test accuracy** after 10 epochs.
 
-## 🔮 Örnek Tahminler
+## 🔮 Sample Predictions
 
-Eğitilen model, eğitim sırasında kullanılmayan internet kaynaklı özel görseller üzerinde de test edilmiştir.
+The trained model was also tested on custom images downloaded from the internet.
 
-| Görsel           | Tahmin           |  Olasılık |
-| ---------------- | ---------------- | --------: |
-| Golden Retriever | Golden Retriever | **99.8%** |
-| Shih Tzu         | Shih Tzu         | **98.2%** |
+| Image            | Prediction       | Confidence |
+| ---------------- | ---------------- | ---------: |
+| Golden Retriever | Golden Retriever |  **99.8%** |
+| Shih Tzu         | Shih Tzu         |  **98.2%** |
 
-## 📂 Proje İçeriği
+## 🎯 Project Goals
 
-```text
-ImageWoof/
-│
-├── ImageWoof_Classification.ipynb
-├── README.md
-└── ...
-```
+Through this project, the following concepts were practiced:
 
-## 🎯 Projenin Amacı
-
-Bu proje ile:
-
-* Transfer learning yaklaşımını uygulamak
-* Önceden eğitilmiş CNN modellerini kullanmak
-* EfficientNet-B0 mimarisini kullanarak görüntü sınıflandırmak
-* PyTorch ile model eğitimi gerçekleştirmek
-* Model performansını train/test accuracy üzerinden değerlendirmek
-* Eğitilmiş modeli gerçek görüntüler üzerinde test etmek
-
-amaçlanmıştır.
+* Transfer learning with pretrained CNN models
+* EfficientNet-B0 architecture
+* Image classification using PyTorch
+* Freezing pretrained model layers
+* Customizing a classification head
+* Model training and evaluation
+* GPU-accelerated deep learning with CUDA
+* Testing a trained model on custom images
